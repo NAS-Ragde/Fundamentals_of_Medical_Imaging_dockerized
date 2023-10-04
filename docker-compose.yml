@@ -1,0 +1,40 @@
+version: '3'
+
+networks:
+  full-web-application:
+    driver: bridge
+
+services:
+
+  web-app:
+    build: 
+        context: ./frontend
+    image: ghcr.io/nas-ragde/reactjs_medical-imaging-fundamentals:latest
+    ports:
+      - "3001:3001"
+    networks: 
+      - full-web-application 
+      
+  backend:
+    build: 
+        context: ./backend 
+    image: ghcr.io/nas-ragde/medical-imaging-fundamentals:latest
+    ports: 
+        - "8088:8088"
+    networks:
+      - full-web-application
+    
+  oviyam:
+    build:
+        context: .
+        dockerfile: Dockerfile
+    container_name: Oviyam
+    restart: always
+    ports:
+      - "8081:8080"
+    volumes:
+      - ./tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml
+      - ./Oviyam/oviyam2.war:/usr/local/tomcat/webapps/oviyam.war
+    networks:
+      - full-web-application
+
