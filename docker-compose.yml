@@ -1,9 +1,5 @@
 version: '3'
 
-networks:
-  full-web-application:
-    driver: bridge
-
 services:
   ldap:
     image: dcm4che/slapd-dcm4chee:2.6.5-31.0
@@ -15,8 +11,6 @@ services:
     volumes:
       - /var/local/dcm4chee-arc/ldap:/var/lib/openldap/openldap-data
       - /var/local/dcm4chee-arc/slapd.d:/etc/openldap/slapd.d
-    networks:
-      - full-web-application
 
   db:
     image: dcm4che/postgres-dcm4chee:15.3-31
@@ -29,8 +23,6 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
       - /var/local/dcm4chee-arc/db:/var/lib/postgresql/data
-    networks:
-      - full-web-application
 
   arc:
     image: dcm4che/dcm4chee-arc-psql:5.31.0
@@ -58,31 +50,32 @@ services:
       - /etc/timezone:/etc/timezone:ro
       - /var/local/dcm4chee-arc/wildfly:/opt/wildfly/standalone
       - /var/local/dcm4chee-arc/storage:/storage
-    networks:
-      - full-web-application
+
+  ct-tools:
+    build:
+      context: ./ct-tools
+    image: dcm4che/dcm4che-tools
+    container_name: ct-tools
+    command: storescu -c DCM4CHEE@arc:11112 /opt/dcm4che/etc/testdata/dicom
 
   web-app:
-    build: 
-        context: ./frontend
+    build:
+      context: ./frontend
     image: ghcr.io/nas-ragde/reactjs_medical-imaging-fundamentals:latest
     ports:
       - "3001:3001"
-    networks: 
-      - full-web-application 
-      
+
   backend:
-    build: 
-        context: ./backend 
+    build:
+      context: ./backend
     image: ghcr.io/nas-ragde/medical-imaging-fundamentals:latest
-    ports: 
-        - "8088:8088"
-    networks:
-      - full-web-application
-    
+    ports:
+      - "8088:8088"
+
   oviyam:
     build:
-        context: .
-        dockerfile: Dockerfile
+      context: .
+      dockerfile: Dockerfile
     container_name: Oviyam
     restart: always
     ports:
@@ -90,6 +83,6 @@ services:
     volumes:
       - ./tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml
       - ./Oviyam/oviyam2.war:/usr/local/tomcat/webapps/oviyam.war
-    networks:
-      - full-web-application
+
+
 
