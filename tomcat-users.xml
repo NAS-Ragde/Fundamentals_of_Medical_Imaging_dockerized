@@ -35,11 +35,13 @@
   application, do not forget to remove the <!.. ..> that surrounds them. You
   will also need to set the passwords to something appropriate.
 -->
- <user username="admin" password="password" roles="manager-gui, admin-gui,admin"/>
- <user username="tomcat" password="test" roles="tomcat"/>
- <user username="WebAdmin" password="password" roles="webadmin"/>
+ <!-- <user username="admin" password="password" roles="manager-gui, admin-gui,admin"/> -->
+ <!-- <user username="tomcat" password="test" roles="tomcat"/> -->
+ <!-- <user username="WebAdmin" password="password" roles="webadmin"/> -->
 
- 
+ <user username="admin" password="admin-password" roles="webadmin"/>
+ <user username="tomcat" password="test" roles="tomcat"/>
+ <user username="WebAdmin" password="web-password" roles="manager-gui, admin-gui,admin"/>
 
 <!--
   <user username="robot" password="<must-be-changed>" roles="manager-script"/>
