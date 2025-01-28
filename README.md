@@ -1,14 +1,14 @@
 # Fundamentals of Medical Imaging Course
 
 ## Introduction:
-This dockerized application encompasses an integrative Wen application which provides a learning environment to
+This dockerized application encompasses an integrative Web application which provides a learning environment to
 get started into the Medical Imaging Management field.
 
 The application encompasses: 
 - content from literature review
 - multimedia and external links
 - customised quizzes per chapter
-- PACS (DICOM4CHEE)
+- PACS (DICOM4CHE)
 - DICOM Viewer
 
 
